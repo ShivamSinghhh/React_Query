@@ -19,18 +19,21 @@ export function InfinitePeople() {
     isError,
     error,
   } = useInfiniteQuery(
-    "star-wars-people",
-    ({ pageParam = initialUrl }) => fetchUrl(pageParam),
+    "star-wars-peoples",  // dependencies keys
+    ({ pageParam = initialUrl }) => fetchUrl(pageParam), // query function managed by useInfiniteQuery
     {
       getNextPageParam: (currentPage) => currentPage.next || undefined,
+      // This option helps in maintaing the pageParam for the next fetch.
+      // currentPage.next will give the next url otherwise it will be undefined if there is no next page.
+
     }
   );
   if (isLoading) return <h3 className="loading">loading..</h3>;
-  if (isError) return <h3 className="loading">Error : {error.toString()}</h3>;
+  if (isError) return <h3 className="error">Error : {error.toString()}</h3>;
   // loadMore & hasMore are two props for InfiniteScroll
   return (
     <>
-      {isFetching && <h3 className="loading">fetching..</h3>}
+      {isFetching && <h3 className="fetching">fetching..</h3>}
       <InfiniteScroll loadMore={fetchNextPage} hasMore={hasNextPage}>
         {data.pages.map((pageData) => {
           return pageData.results.map((people) => {
