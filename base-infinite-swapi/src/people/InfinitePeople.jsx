@@ -19,13 +19,12 @@ export function InfinitePeople() {
     isError,
     error,
   } = useInfiniteQuery(
-    "star-wars-peoples",  // dependencies keys
+    "star-wars-peoples", // dependencies keys
     ({ pageParam = initialUrl }) => fetchUrl(pageParam), // query function managed by useInfiniteQuery
     {
       getNextPageParam: (currentPage) => currentPage.next || undefined,
       // This option helps in maintaing the pageParam for the next fetch.
       // currentPage.next will give the next url otherwise it will be undefined if there is no next page.
-
     }
   );
   if (isLoading) return <h3 className="loading">loading..</h3>;
